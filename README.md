@@ -29,5 +29,5 @@ optional arguments:
 ```
 
 ## Requirements
-* python2
+* python3
 * [pillow](http://python-pillow.org/)
