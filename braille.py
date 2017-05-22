@@ -99,17 +99,17 @@ def convert(img, doColor=True, renderIRC=True, cutoff=50, size=1.0, invert=False
                     # Check if we need to reset the color code
                     if lastCol!=closest[0] and lastCol!=-1:
                         line+='\x03' if renderIRC else '\033[0m'
-                    line += unichr(0x2800+val)
+                    line += chr(0x2800+val)
                 else:
                     # Add the color escape to the first character in a set of colors
                     if renderIRC:
-                        line += ('\x03%u'%closest[0])+unichr(0x2800+val)
+                        line += ('\x03%u'%closest[0])+chr(0x2800+val)
                     else:
-                        line += ('\033[%sm'%closest[2])+unichr(0x2800+val)
+                        line += ('\033[%sm'%closest[2])+chr(0x2800+val)
                 lastCol = closest[0]
             else:
                 # Add the offset from the base braille character
-                line += unichr(0x2800+val)
+                line += chr(0x2800+val)
         bimg.append(line)
     return bimg
     
@@ -132,4 +132,4 @@ if __name__=='__main__':
             break
 
     for u in convert(args.file,doColor=not args.nocolor, renderIRC=args.irc, cutoff=args.c, size=args.s, invert=args.invert, alphaColor=alphaColor):
-        print u.encode('utf-8')
+        print (u)
