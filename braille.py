@@ -1,4 +1,5 @@
 import argparse
+from builtins import chr,map
 
 from PIL import Image
 
@@ -74,7 +75,7 @@ def convert(img, do_color=True, no_resize=False, render_irc=True, cutoff=50, siz
                         p = i2.getpixel((col + ci, row + ri))
                         alpha = p[3] if len(p) > 3 else 1
                         if invert and alpha > 0:
-                            p = map(lambda x: 255 - x, p)
+                            p = list(map(lambda x: 255 - x, p))
                         elif alpha == 0:
                             p = alpha_color
                     else:
@@ -85,32 +86,32 @@ def convert(img, do_color=True, no_resize=False, render_irc=True, cutoff=50, siz
                     # pv = sum(p[:3])
                     if luma > cutoff:
                         val += 1 << i
-                        cavg = map(sum, zip(cavg, p))
+                        cavg = list(map(sum, zip(cavg, p)))
                         pc += 1
                     i += 1
 
             if do_color and pc > 0:
                 # Get the average of the 8 pixels
-                cavg = map(lambda x: x / pc, cavg)
+                cavg = list(map(lambda x: x / pc, cavg))
 
                 # Find the closest color with geometric distances
-                closest = min(COLORS, key=lambda c: sum(map(lambda x: (x[0] - x[1]) ** 2, zip(cavg, c[1]))))
+                closest = min(COLORS, key=lambda c: sum(list(map(lambda x: (x[0] - x[1]) ** 2, zip(cavg, c[1])))))
 
                 if closest[0] == 1 or last_col == closest[0]:
                     # Check if we need to reset the color code
                     if last_col != closest[0] and last_col != -1:
                         line += '\x03' if render_irc else '\033[0m'
-                    line += unichr(0x2800 + val)
+                    line += chr(0x2800 + val)
                 else:
                     # Add the color escape to the first character in a set of colors
                     if render_irc:
-                        line += ('\x03%u' % closest[0]) + unichr(0x2800 + val)
+                        line += ('\x03%u' % closest[0]) + chr(0x2800 + val)
                     else:
-                        line += ('\033[%sm' % closest[2]) + unichr(0x2800 + val)
+                        line += ('\033[%sm' % closest[2]) + chr(0x2800 + val)
                 last_col = closest[0]
             else:
                 # Add the offset from the base braille character
-                line += unichr(0x2800 + val)
+                line += chr(0x2800 + val)
         bimg.append(line)
     return bimg
 
@@ -135,4 +136,4 @@ if __name__ == '__main__':
 
     for u in convert(args.file, do_color=not args.nocolor, no_resize=args.noresize, render_irc=args.irc, cutoff=args.c,
                      size=args.s, invert=args.invert, alpha_color=alpha_default):
-        print u.encode('utf-8')
+        print(u)
