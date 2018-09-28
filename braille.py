@@ -1,27 +1,27 @@
 import argparse
-from builtins import chr,map
+from builtins import chr, map
 
 from PIL import Image
 
 # Colors for both irc and terminal. Adjust the rgb value to match better if needed
 COLORS = [
-    #   [renderIRC    RGB             Term    Name]
-    [0, (255, 255, 255), '97', 'white'],
-    [1, (0, 0, 0), '30', 'black'],
-    [2, (0, 0, 127), '34', 'blue'],
-    [3, (0, 147, 0), '32', 'green'],
-    [4, (255, 0, 0), '91', 'light red'],
-    [5, (127, 0, 0), '31', 'brown'],
-    [6, (156, 0, 156), '35', 'purple'],
-    [7, (252, 127, 0), '33', 'orange'],
-    [8, (255, 255, 0), '93', 'yellow'],
-    [9, (0, 252, 0), '92', 'light green'],
-    [10, (0, 147, 147), '36', 'cyan'],
-    [11, (0, 255, 255), '96', 'light cyan'],
-    [12, (0, 0, 252), '94', 'light blue'],
-    [13, (255, 0, 255), '95', 'pink'],
-    [14, (127, 127, 127), '90', 'grey'],
-    [15, (210, 210, 210), '37', 'light grey']
+#   [renderIRC    RGB             Term    Name]
+    [0,     (255,255,255),  '97',   'white'],
+    [1,     (0,0,0),        '30',   'black'],
+    [2,     (0,0,127),      '34',   'blue'],
+    [3,     (0,147,0),      '32',   'green'],
+    [4,     (255,0,0),      '91',   'light red'],
+    [5,     (127,0,0),      '31',   'brown'],
+    [6,     (156,0,156),    '35',   'purple'],
+    [7,     (252,127,0),    '33',   'orange'],
+    [8,     (255,255,0),    '93',   'yellow'],
+    [9,     (0,252,0),      '92',   'light green'],
+    [10,    (0,147,147),    '36',   'cyan'],
+    [11,    (0,255,255),    '96',   'light cyan'],
+    [12,    (0,0,252),      '94',   'light blue'],
+    [13,    (255,0,255),    '95',   'pink'],
+    [14,    (127,127,127),  '90',   'grey'],
+    [15,    (210,210,210),  '37',   'light grey']
 ]
 
 
