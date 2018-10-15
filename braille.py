@@ -111,7 +111,10 @@ def convert(img, do_color=True, no_resize=False, render_irc=True, cutoff=50, siz
                 last_col = closest[0]
             else:
                 # Add the offset from the base braille character
-                line += chr(0x2800 + val)
+                if (val == 0):
+                    line += chr(0x2804)
+                else:
+                    line += chr(0x2800 + val)
         bimg.append(line)
     return bimg
 
@@ -119,13 +122,14 @@ def convert(img, do_color=True, no_resize=False, render_irc=True, cutoff=50, siz
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('file', help='The image file to render')
-    ap.add_argument('-c', type=int, default=100, help='The luma cutoff amount, from 0 to 255. Default 50')
-    ap.add_argument('-s', type=float, default=1.0, help='Size modifier. Default 1.0x')
-    ap.add_argument('--nocolor', action="store_true", default=False, help='Don\'t use color')
+    ap.add_argument('-c', type=int, default=100, help='The luma cutoff amount, from 0 to 255. Default 100')
+    ap.add_argument('-s', type=float, default=1.52, help='Size modifier. Default 1.52x')
+    ap.add_argument('-o', dest='output', default='out.txt', help='Output file')
+    ap.add_argument('--color', dest="color", action="store_true", default=False, help='Use color')
     ap.add_argument('--noresize', action="store_true", default=False, help='Don\'t resize image')
     ap.add_argument('--irc', action="store_true", default=False, help='Use IRC color escapes')
     ap.add_argument('--invert', action="store_true", default=False, help='Invert the image colors')
-    ap.add_argument('--background', default='black', help='The color to display for full alpha transparency')
+    ap.add_argument('--background', default='white', help='The color to display for full alpha transparency')
     args = ap.parse_args()
 
     alpha_default = (0, 0, 0)
@@ -133,7 +137,19 @@ if __name__ == '__main__':
         if color[3].lower() == args.background:
             alpha_default = color[1]
             break
+    
+    width = 0
+    result = convert(args.file, do_color=args.color, no_resize=args.noresize, render_irc=args.irc, cutoff=args.c,
+                     size=args.s, invert=args.invert, alpha_color=alpha_default)
 
-    for u in convert(args.file, do_color=not args.nocolor, no_resize=args.noresize, render_irc=args.irc, cutoff=args.c,
-                     size=args.s, invert=args.invert, alpha_color=alpha_default):
+    for u in result:
         print(u)
+        width = len(u)
+    print(f'Width: {str(width)}/33')
+    print(f'Total chars {sum([len(l) + 1 for l in result])}/500')
+
+    if (args.output):
+        with open(args.output, 'w', encoding='utf-8') as outfile:
+            for line in result:
+                outfile.write(line + "\n")
+            

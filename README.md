@@ -1,15 +1,29 @@
 # Image To Braille
+
 Covers a given image to a unicode version using braille characters and color escapses.
 
 ## Basic Example
+
 ![Original](https://upload.wikimedia.org/wikipedia/commons/e/ee/GNU%2BLinux.png)
 
 `python braille.py /tmp/it-is-GNU-SLASH-linux.png -s 4 -c 50 --background white`
 
 ![After](http://puu.sh/n4m1L/e54e4750a0.png)
 
-## Usage
+## Requirements
+
+* Python 3
+* pipenv
+
+## Install
+
+```shell
+pipenv install
 ```
+
+## Usage
+
+```none
 usage: braille.py [-h] [-c C] [-s S] [--nocolor] [--irc] [--invert]
                   [--background BACKGROUND]
                   file
@@ -28,6 +42,3 @@ optional arguments:
                         The color to display for full alpha transparency
 ```
 
-## Requirements
-* python3 or python2
-* [pillow](http://python-pillow.org/)
